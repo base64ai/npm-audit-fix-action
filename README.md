@@ -4,7 +4,7 @@
 
 This action runs [`npm audit fix`](https://docs.npmjs.com/cli/audit) and creates a pull request.
 
-## Original GitHub Action Usage
+## Usage
 
 For example, you can add this action by creating [`.github/workflows/npm-audit-fix.yml`](.github/workflows/npm-audit-fix.yml):
 
@@ -58,31 +58,39 @@ with:
 The reason is that the default token does not have enough permissions to trigger CI.
 See also the [GitHub document](https://docs.github.com/en/actions/configuring-and-managing-workflows/authenticating-with-the-github_token#permissions-for-the-github_token) about the token permissions.
 
-### Screenshot
+## Screenshot
 
 ![A pull request created by npm-audit-fix-action](screenshot.png)
 
-## Docker Version
+## License
 
-This is a Docker version of the action that supports Node.js 22 and npm 10, which are not yet supported by GitHub Action runners.
+This project is licensed under the MIT License - see the original repository for details.
+
+## Credits
+
+This is based on the excellent work by [ybiquitous](https://github.com/ybiquitous) in the [npm-audit-fix-action](https://github.com/ybiquitous/npm-audit-fix-action) repository.
+
+# Docker Version of npm-audit-fix-action
+
+This is a Docker version of [ybiquitous/npm-audit-fix-action](https://github.com/ybiquitous/npm-audit-fix-action) that supports Node.js 22 and npm 11, which are not yet supported by GitHub Action runners.
 
 This Docker version is available as a fork at [base64ai/npm-audit-fix-action](https://github.com/base64ai/npm-audit-fix-action) in the `docker` branch.
 
-### Overview
+## Overview
 
 This Docker container performs the same functionality as the original GitHub Action:
 
 1. Runs `npm audit fix` on your repository
 2. Creates a pull request with the fixes
 
-### Runtime Information
+## Runtime Information
 
 - **Node.js**: v22.x (Alpine)
-- **npm**: v10.x
+- **npm**: v11.x
 
-### Docker Usage Options
+## Usage
 
-#### Using Docker Directly
+### Using Docker Directly
 
 ```bash
 # Clone the repository
@@ -103,7 +111,7 @@ docker run -it --rm \
   npm-audit-fix
 ```
 
-#### Using Pre-built Docker Image
+### Using Pre-built Docker Image
 
 You can also use the pre-built Docker image from GitHub Container Registry:
 
@@ -118,7 +126,7 @@ docker run -it --rm \
   ghcr.io/base64ai/npm-audit-fix-action:docker
 ```
 
-#### Using Docker Compose
+### Using Docker Compose
 
 1. Set up environment variables:
 
@@ -134,7 +142,7 @@ export GITHUB_ACTOR=your_github_username
 docker-compose up
 ```
 
-### Docker Configuration
+## Configuration
 
 The Docker container accepts the same inputs as the original GitHub Action:
 
@@ -151,12 +159,12 @@ The Docker container accepts the same inputs as the original GitHub Action:
 | `NPM_ARGS`        | Arguments for the `npm` command      | None                                     |
 | `PATH_TO_PROJECT` | Path to the project root directory   | `.`                                      |
 
-### Example GitHub Actions Workflow
+## Example in GitHub Actions
 
 You can still use this in your GitHub Actions workflow by using the Docker container:
 
 ```yaml
-name: npm audit fix with Node.js 22 and npm 10
+name: npm audit fix with Node.js 22 and npm 11
 
 on:
   schedule:
@@ -174,7 +182,7 @@ jobs:
         with:
           fetch-depth: 0 # Needed for creating PRs
 
-      - name: Run npm audit fix with Node.js 22 and npm 10
+      - name: Run npm audit fix with Node.js 22 and npm 11
         run: |
           docker run -i --rm \
             -v ${{ github.workspace }}:/github/workspace \
@@ -186,9 +194,3 @@ jobs:
             -e GITHUB_RUN_ID=${{ github.run_id }} \
             ghcr.io/base64ai/npm-audit-fix-action:docker
 ```
-
-## License and Credits
-
-[MIT](LICENSE) © Masafumi Koba
-
-This Docker version is based on the excellent work by [ybiquitous](https://github.com/ybiquitous) in the [npm-audit-fix-action](https://github.com/ybiquitous/npm-audit-fix-action) repository.
