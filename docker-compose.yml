@@ -1,0 +1,25 @@
+version: "3"
+
+services:
+  npm-audit-fix:
+    build: .
+    volumes:
+      - ${PWD}:/github/workspace
+    working_dir: /github/workspace
+    environment:
+      - GITHUB_TOKEN=${GITHUB_TOKEN}
+      - GITHUB_REPOSITORY=${GITHUB_REPOSITORY}
+      - GITHUB_ACTOR=${GITHUB_ACTOR}
+      - GITHUB_SERVER_URL=${GITHUB_SERVER_URL:-https://github.com}
+      - GITHUB_RUN_ID=${GITHUB_RUN_ID:-1}
+      # Optional inputs with defaults
+      - INPUT_GITHUB_TOKEN=${GITHUB_TOKEN}
+      - INPUT_GITHUB_USER=${GITHUB_USER:-${GITHUB_ACTOR}}
+      - INPUT_GITHUB_EMAIL=${GITHUB_EMAIL:-"${GITHUB_ACTOR}@users.noreply.github.com"}
+      - INPUT_BRANCH=${BRANCH:-npm-audit-fix-action/fix}
+      - INPUT_DEFAULT_BRANCH=${DEFAULT_BRANCH}
+      - INPUT_COMMIT_TITLE=${COMMIT_TITLE:-"build(deps): npm audit fix"}
+      - INPUT_LABELS=${LABELS:-"dependencies, javascript, security"}
+      - INPUT_ASSIGNEES=${ASSIGNEES}
+      - INPUT_NPM_ARGS=${NPM_ARGS}
+      - INPUT_PATH=${PATH_TO_PROJECT:-.}
